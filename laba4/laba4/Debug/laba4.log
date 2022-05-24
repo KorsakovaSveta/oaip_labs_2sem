@@ -1,5 +1,0 @@
-﻿  laba4.cpp
-D:\oaip_labs_2_sem\laba4.0\laba4\laba4\laba4.cpp(170,38): warning C4081: expected 'newline'; found ';'
-D:\oaip_labs_2_sem\laba4.0\laba4\laba4\laba4.cpp(212,38): warning C4081: expected 'newline'; found ';'
-D:\oaip_labs_2_sem\laba4.0\laba4\laba4\laba4.cpp(205,37): warning C4101: 'arr': unreferenced local variable
-  laba4.vcxproj -> D:\oaip_labs_2_sem\laba4.0\laba4\Debug\laba4.exe
