@@ -1,35 +1,33 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<fstream>
 #include<string>
 #include<Windows.h>
-#include<chrono>
-#include <ctime>
 #include <sstream>
-#include <algorithm>
 using namespace std;
 
 struct device
 {
-	string productGroup;
+	char productGroup[100];
 	string brand;
 	string data;
-	string condition;
+	char condition[12];
 };
 
 void Quick_Sort(int*, int, int, device*);
-
+int search(int*, int, int, int);
+int readData1(string);
+int readDataArr(device*, int);
 int main()
 {
-
-	device inform[100];
+	device inform[100], change;
 	ifstream file("information.txt");
-	string line, group[100];
-	int i = 0, j = 0, newDevices, numberOfDevices = 0;
+	string line, group[100], datastr;
+	char str[100];
+	int i = 0, j = 0, newDevices, numberOfDevices = 0, kod1, data[100], arr[100];
+	int year1, month1, day1, data1 = 0, day2, month2, year2, index =0;
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "Russian");
-	int kod1;
-	string res, sorename;
 	if (file)
 	{
 		while (getline(file, line)) ++numberOfDevices;
@@ -37,19 +35,16 @@ int main()
 		file.seekg(0);
 		for (i = 0; i < numberOfDevices; i++)
 		{
-
-			getline(file, inform[i].productGroup, ',');
+			file.getline(inform[i].productGroup, 100, ',');
 			getline(file, inform[i].brand, ',');
 			getline(file, inform[i].data, ',');
-			getline(file, inform[i].condition, '\n');
-
+			file.getline(inform[i].condition, 12, '\n');
 		}
 		file.close();
 	}
 	do
 	{
-
-		cout << " Ìåíþ\n 1 - Ñîçäàíèå\n 2 - Ïðîñìîòð\n 3 - Äîáàâëåíèå íîâûõ äàííûõ\n 4 - Ðåøåíèå èíäèâèäóàëüíîãî çàäàíèÿ\n 5 - Óäàëåíèå ôàéëà ñ èíäèâèäóàëüíûì çàäàíèåì\n 0 - Âûõîä\n";
+		cout << " ÐœÐµÐ½ÑŽ\n 1 - Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ\n 2 - ÐŸÑ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€\n 3 - Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð½Ð¾Ð²Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ…\n 4 - Ð ÐµÑˆÐµÐ½Ð¸Ðµ Ð¸Ð½Ð´Ð¸Ð²Ð¸Ð´ÑƒÐ°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð·Ð°Ð´Ð°Ð½Ð¸Ñ\n 5 - Ð›Ð¸Ð½ÐµÐ¹Ð½Ñ‹Ð¹ Ð¿Ð¾Ð¸ÑÐº\n 6 - ÐŸÐ¾Ð¸ÑÐº Ð´ÐµÐ»ÐµÐ½Ð¸ÐµÐ¼ Ð¿Ð¾Ð¿Ð¾Ð»Ð°Ð¼\n 7 - Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° Ð¼ÐµÑ‚Ð¾Ð´Ð¾Ð¼ Ð¿Ñ€ÑÐ¼Ð¾Ð³Ð¾ Ð²Ñ‹Ð±Ð¾Ñ€Ð°\n 8 - Quick_Sort\n 0 - Ð’Ñ‹Ñ…Ð¾Ð´\n";
 		cin >> kod1;
 		switch (kod1)
 		{
@@ -57,16 +52,16 @@ int main()
 		{
 			ifstream file("information.txt");
 			if (file.is_open())
-				cout << "Ôàéë îòêðûò\n";
+				cout << "Ð¤Ð°Ð¹Ð» Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚\n";
 			else
-				cout << "Íóæíî ñîçäàòü ôàéë\n";
+				cout << "ÐÑƒÐ¶Ð½Ð¾ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ñ„Ð°Ð¹Ð»\n";
 			file.close();
 			break;
 		}
 		case 2:
 		{
 			ifstream file("information.txt");
-			cout << "\t\n--------Èíôîðìàöèÿ--------\n";
+			cout << "\t\n--------Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ--------\n";
 			while (getline(file, line))
 			{
 				cout << line << endl;
@@ -76,43 +71,42 @@ int main()
 		}
 		case 3:
 		{
-
+			int length;
 			ofstream addition("information.txt", ios::app);
-			cout << "Ñêîëüêî àïïàðàòóðû õîòèòå äîáàâèòü\n";
+			cout << "Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð°Ð¿Ð¿Ð°Ñ€Ð°Ñ‚ÑƒÑ€Ñ‹ Ñ…Ð¾Ñ‚Ð¸Ñ‚Ðµ Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ\n";
 			cin >> newDevices;
 			for (i = 0; i < newDevices; i++)
 			{
-				cout << "Ââåäèòå ãðóïïó àïïàðàòóðû\n";
+				cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ Ð°Ð¿Ð¿Ð°Ñ€Ð°Ñ‚ÑƒÑ€Ñ‹\n";
 				cin.get();
-				getline(cin, inform[numberOfDevices].productGroup);
-				cout << "Ââåäèòå ìàðêó àïïàðàòóðû\n";
-				cin >> inform[numberOfDevices].brand;
-				cout << "Ââåäèòå äàòó ïðè¸ìà\n";
-				cin >> inform[numberOfDevices].data;
-				cout << "Ââåäèòå ñîñòîÿíèå ãîòîâíîñòè çàêàçà\n";
-				cin >> inform[numberOfDevices].condition;
+				cin.getline(inform[numberOfDevices].productGroup, 100);
+				cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¼Ð°Ñ€ÐºÑƒ Ð°Ð¿Ð¿Ð°Ñ€Ð°Ñ‚ÑƒÑ€Ñ‹\n";
+				getline(cin, inform[numberOfDevices].brand);
+				cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ð°Ñ‚Ñƒ Ð¿Ñ€Ð¸Ñ‘Ð¼Ð°\n";
+				getline(cin, inform[numberOfDevices].data);
+				cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾ÑÑ‚Ð¸ Ð·Ð°ÐºÐ°Ð·Ð°\n";
+				fgets(inform[numberOfDevices].condition, 12, stdin);
 
-				addition << inform[numberOfDevices].productGroup << "," << inform[numberOfDevices].brand << "," << inform[numberOfDevices].data[11] << "," << inform[numberOfDevices].condition << "\n";
+				addition << inform[numberOfDevices].productGroup << "," << inform[numberOfDevices].brand << "," << inform[numberOfDevices].data << "," << inform[numberOfDevices].condition << "\n";
+				numberOfDevices++;
 			}
 			addition.close();
-
 			break;
 		}
 		case 4:
 		{
-			chrono::time_point<chrono::system_clock> now = chrono::system_clock::now();
-			time_t start_time = chrono::system_clock::to_time_t(now);
-			char currentData[100];
-			struct tm buf;
-			errno_t err = localtime_s(&buf, &start_time);
-			strftime(currentData, sizeof(currentData), "%F", &buf);
-
 			int c = 0;
 			for (i = 0; i < numberOfDevices; i++)
 			{
 				int contained = -1;
-				for (j = 0; j < c; j++) if (inform[i].productGroup == group[j]) contained = j;
-				if (contained == -1) group[c++] = inform[i].productGroup;
+				for (j = 0; j < c; j++)
+				{
+					if (inform[i].productGroup == group[j])
+						contained = j;
+				}
+					if (contained == -1)
+						group[c++] = inform[i].productGroup;
+				
 			}
 			for (i = 0; i < c; i++)
 			{
@@ -127,61 +121,42 @@ int main()
 		}
 		case 5:
 		{
-			string data;
-			cout << "Ââåäèòå èíòåðåñóþùóþ äàòó ïðè¸ìà â ðåìîíò\n";
-			cin >> data;
+			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÑƒÑŽÑ‰ÑƒÑŽ Ð´Ð°Ñ‚Ñƒ Ð¿Ñ€Ð¸Ñ‘Ð¼Ð° Ð² Ñ€ÐµÐ¼Ð¾Ð½Ñ‚\n";
+			cin.get();
+			getline(cin, datastr);
+			istringstream(datastr) >> day2 >> month2 >> year2;
 			for (i = 0; i < numberOfDevices; i++)
 			{
-				if (inform[i].data == data)
-					cout << inform[i].productGroup << " " << inform[i].brand << " " << inform[i].data << " " << inform[i].condition << endl;
+				istringstream(inform[i].data) >> day1 >> month1 >> year1;
+				if (day1 == day2 && month1 == month2 && year1 == year2)
+					cout << inform[i].productGroup << " " << inform[i].brand << " " << inform[i].condition << endl;
 			}
 			break;
 		}
 		case 6:
 		{
-			int i = 0, j = numberOfDevices - 1, index;
-			string data;
-			cout << "Ââåäèòå èíòåðåñóþùóþ äàòó ïðè¸ìà â ðåìîíò\n";
-			cin >> data;
-			while (i < j)
-			{
-				index = (i + j) / 2;
-				if (inform[index].data < data)
-					i = index + 1;
-				else j = index;
-			}
-			if (inform[i].data == data)
-				cout << inform[i].productGroup << " " << inform[i].brand << " " << inform[i].data << " " << inform[i].condition << endl;
+			cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÑƒÑŽÑ‰ÑƒÑŽ Ð´Ð°Ñ‚Ñƒ Ð¿Ñ€Ð¸Ñ‘Ð¼Ð° Ð² Ñ€ÐµÐ¼Ð¾Ð½Ñ‚\n";
+			cin.get();
+			getline(cin, datastr);
+			data1 = readData1(datastr);
+			for (i=0; i<numberOfDevices; i++)
+			data[i] = readDataArr(inform, i);
+			Quick_Sort(data, 0, numberOfDevices - 1, inform);
+			index = search(data, 0, numberOfDevices, data1);
+			if (index >= 0)
+				cout << inform[index].productGroup << " " << inform[index].brand << " " << inform[index].condition << endl;
+			else cout << "Ð—Ð°ÐºÐ°Ð· Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½\n";
 			break;
 		}
 		case 7:
 		{
-			int index;
-			device change;
-			time_t rawtime;
-			struct tm* timeinfo;
-			int year, month, day, data[100], arr[100];
-			for (i = 0; i < numberOfDevices; i++)
-			{
-
-				istringstream(inform[i].data) >> day >> month >> year;
-
-				time(&rawtime);
-				#pragma warning (suppress : 4996);
-				timeinfo = localtime(&rawtime);
-				timeinfo->tm_year = year - 1900;
-				timeinfo->tm_mon = month - 1;
-				timeinfo->tm_mday = day;
-				data[i] = timeinfo->tm_mday + timeinfo->tm_mon * 31 + timeinfo->tm_year * 365;
-			}
-
+			for (i=0; i < numberOfDevices; i++)
+			data[i] = readDataArr(inform, i);
 			for (i = 0; i < numberOfDevices - 1; i++)
 			{
 				index = i;
-
 				for (j = i + 1; j < numberOfDevices; j++)
 				{
-
 					if (data[j] < data[index])
 						index = j;
 				}
@@ -199,25 +174,8 @@ int main()
 		}
 		case 8:
 		{
-			device change;
-			time_t rawtime;
-			struct tm* timeinfo;
-			int year, month, day, data[100], arr[100];
 			for (i = 0; i < numberOfDevices; i++)
-			{
-
-				istringstream(inform[i].data) >> day >> month >> year;
-
-				time(&rawtime);
-				#pragma warning (suppress : 4996);
-				timeinfo = localtime(&rawtime);
-				timeinfo->tm_year = year - 1900;
-				timeinfo->tm_mon = month - 1;
-				timeinfo->tm_mday = day;
-				data[i] = timeinfo->tm_mday + timeinfo->tm_mon * 31 + timeinfo->tm_year * 365;
-			}
-			i = 0, j = numberOfDevices - 1;
-			int left = 0, right = numberOfDevices - 1;
+				data[i] = readDataArr(inform, i);
 			Quick_Sort(data, 0, numberOfDevices - 1, inform);
 			for (i = 0; i < numberOfDevices; i++)
 				cout << inform[i].productGroup << " " << inform[i].brand << " " << inform[i].data << " " << inform[i].condition << endl;
@@ -226,6 +184,7 @@ int main()
 		}
 	} while (kod1 <= 8 && kod1 != 0);
 }
+
 void Quick_Sort(int* data, int begin, int end, device* inform)
 {
 	device change;
@@ -247,6 +206,40 @@ void Quick_Sort(int* data, int begin, int end, device* inform)
 			right--;
 		}
 	} while (left <= right);
-	if (begin < right) Quick_Sort(data, begin, right, inform);
-	if (left < end) Quick_Sort(data, left, end, inform);
+	if (begin < right) 
+		Quick_Sort(data, begin, right, inform);
+	if (left < end) 
+		Quick_Sort(data, left, end, inform);
+}
+
+int search(int* data, int i, int j, int data1)
+{
+	int middle = 0;
+	while (1)
+	{
+		middle = (i + j) / 2;
+		if (data1 < data[middle])
+			j = middle - 1;
+		else if (data1 > data[middle])
+				i = middle + 1;
+		else
+			return middle;
+		if (i > j)
+			return -1;
+	}
+}
+int readData1(string datastr)
+{
+	int day, month, year, data1;
+	istringstream(datastr) >> day >> month >> year;
+	data1 = day + (month - 1) * 31 + (year - 1900) * 365;
+	return data1;
+}
+
+int readDataArr(device* inform, int i)
+{
+	int day, month, year, data2[100];
+	istringstream(inform[i].data) >> day >> month >> year;
+	data2[i] = day + (month - 1) * 31 + (year - 1900) * 365;
+	return data2[i];
 }
