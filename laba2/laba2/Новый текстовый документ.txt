@@ -1,0 +1,50 @@
+cout << inform[i].sorename << " " << inform[i].birthYear << " " << inform[i].numberGroup << " ";
+			for (j = 0; j < 4; j++)
+			{
+				cout << inform[i].marks[j] << " ";
+				sum_marks += inform[i].marks[j];
+			}
+			sred_mark1 = sum_marks / 4.0;
+			sum_marks = 0;
+			cout << sred_mark1 << "\n";
+
+
+
+
+
+if (file)
+				{
+					while (getline(file, line)) ++numberOfStudents;
+					file.clear();
+					file.seekg(0);
+					for (i = 0; i < numberOfStudents; i++)
+					{
+
+						getline(file, res, ',');
+						if (res[0] == '\n')
+							inform[i].sorename = res.substr(1);
+						else
+							inform[i].sorename = res;
+						getline(file, res, ',');
+						inform[i].birthYear = stoi(res);
+						getline(file, inform[i].numberGroup, ',');
+						for (j = 0; j < 4; j++)
+						{
+							file >> inform[i].marks[j];
+						}
+
+						cout << inform[i].sorename << " " << inform[i].birthYear << " " << inform[i].numberGroup << " ";
+						for (j = 0; j < 4; j++)
+						{
+							cout << inform[i].marks[j] << " ";
+						}
+						cout << "\n";
+					}
+					file.close();
+				}
+
+
+
+
+	fstream clear_file("Best_students.txt", ios::out);
+			clear_file.close();
