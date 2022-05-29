@@ -1,0 +1,16 @@
+﻿  laba8.2.cpp
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(33,13): warning C4551: function call missing argument list
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(34,13): warning C4551: function call missing argument list
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(70,55): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(70,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(71,53): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(71,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(78,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(78,58): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(78,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(79,53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(79,56): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(79,32): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(25,12): warning C4101: 'y_min': unreferenced local variable
+D:\oaip_labs_2_sem\laba8.2\laba8.2\laba8.2.cpp(25,19): warning C4101: 'y_max': unreferenced local variable
+  laba8.2.vcxproj -> D:\oaip_labs_2_sem\laba8.2\laba8.2\Debug\laba8.2.exe
